@@ -24,7 +24,7 @@
 	<tbody>
 		
 		<% //맵에 사이즈만큼 ENTRY KEY꺼내오기
-		
+		//getAttribute로 꺼내온다.
 		Map<String,AlbasengVO> parameterMap = (Map<String,AlbasengVO>)getServletContext().getAttribute("albasengs");
 		
 		for (Entry<String, AlbasengVO> entry : parameterMap.entrySet()) {
