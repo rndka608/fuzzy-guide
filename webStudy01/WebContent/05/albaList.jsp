@@ -31,6 +31,8 @@
 		%>
 			<tr>
 		<%
+			//머리부분 삽입
+			//ㄷㄱㄷㄱㄷㄱ
 			String name = entry.getKey();
 			AlbasengVO value = entry.getValue();
 			out.print("<td>"+name+"</td>");
