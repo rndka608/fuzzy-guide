@@ -29,7 +29,8 @@
 
 </head>
 <body>
-<form action="<%=request.getContextPath()%>/login/loginCheck.jsp" method="post">
+<%-- <form action="<%=request.getContextPath()%>/login/loginCheck.jsp" method="post"> --%>
+<form action="./" method="get">
 	<ul>
 		<li>
 			아이디 : <input type="text" name="mem_id" value="<%=Objects.toString(failedId,"")%>"/>
@@ -40,6 +41,7 @@
 		</li>
 		
 	</ul>
+	<input type="hidden" name="command" value="logincheck"/>
 </form>
 </body>
 </html>

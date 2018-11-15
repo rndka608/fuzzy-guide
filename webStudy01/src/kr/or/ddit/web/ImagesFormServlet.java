@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ImagesFormServlet extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletContext context = req.getServletContext();
 		File folder = (File)context.getAttribute("contentFolder");
 		String[] filenames = folder.list(new FilenameFilter() {
@@ -42,6 +42,7 @@ public class ImagesFormServlet extends HttpServlet {
 		}
 		
 		StringBuffer sb = new StringBuffer();
+		sb.append("<option value=''>그림선택</option>");
 		for (int i = 0; i < filenames.length; i++) {
 			sb.append("<option>");
 			sb.append(filenames[i]);			
@@ -59,7 +60,7 @@ public class ImagesFormServlet extends HttpServlet {
 		html.replace(start, end, replacetext);
 		PrintWriter out = resp.getWriter();
 		out.println(html.toString());
-		out.close();
+//		out.close();
 		
 	}
 	

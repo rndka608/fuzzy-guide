@@ -4,11 +4,6 @@
 <%@page import="static java.util.Calendar.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>04/calendar.jsp</title>
 <style>
 	.sunday{
 		background-color: red;
@@ -27,7 +22,7 @@
 </style>
 <script type="text/javascript">
 	function eventHandler(year,month) {
-		var form = document.forms[0];
+		var form = document.calForm;
 		if((year && month) || month==0){
 			form.year.value = year;			
 			form.month.value = month;
@@ -37,8 +32,7 @@
 		return false;	
 	}
 </script>
-</head>
-<body>
+
 <%
 	request.setCharacterEncoding("UTF-8");  //UTF-8로 인코딩 
 	String yearStr = request.getParameter("year"); //파라미터값으로 year을 받는다.
@@ -83,7 +77,7 @@
 	//현재 시스템에서 제공하는 모든 locale정보 제공
 	Locale[] locales = Locale.getAvailableLocales();
 %>
-<form>
+<form name="calForm" method="post">
 <h4>
 <a href="javascript:eventHandler(<%=beforYear%>, <%=beforMonth%>);">이전달</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -112,6 +106,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a onclick="eventHandler(<%=nextYear%>, <%=nextMonth%>);">다음달</a>
 </h4>
+<input type="hidden" value="calendar" name="command"/>
 </form>
 <table>
 <thead>
@@ -157,5 +152,3 @@
 %>
 </tbody>
 </table>
-</body>
-</html>
