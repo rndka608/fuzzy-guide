@@ -1,3 +1,4 @@
+<%@page import="kr.or.ddit.utils.CookieUtil"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.Objects"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -6,7 +7,9 @@
  	//requestA를 의미함.
 	String failedId = request.getParameter("mem_id");
 //  	String error = request.getParameter("error");
- 	String message = (String)session.getAttribute("message"); //object이기 떄문에 다운캐스팅이 필요하다
+ 	String message = (String)session.getAttribute("message");//object이기 떄문에 다운캐스팅이 필요하다
+ 	String ids = new CookieUtil(request).getCookieValue("IDCookie");
+ 	
  %>
 <!DOCTYPE html>
 <html>
@@ -33,9 +36,9 @@
 <!-- <form action="./" method="get"> -->
 	<ul>
 		<li>
-			아이디 : <input type="text" name="mem_id" value="<%=Objects.toString(failedId,"")%>"/>
+			아이디 : <input type="text" name="mem_id" value="<%=Objects.toString(ids,"")%>"/>
 			<label>
-			<input type="checkbox" name="idChecked" value="idSaved"/>아이디기억하기
+			<input type="checkbox" name="idChecked" value="idSaved" <%=StringUtils.isNotBlank(ids)?"CHECKED":"" %>/>아이디기억하기
 			</label>
 		</li>
 		<li>
