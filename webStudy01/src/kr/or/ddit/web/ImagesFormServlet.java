@@ -8,11 +8,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.or.ddit.utils.CookieUtil;
 
 
 public class ImagesFormServlet extends HttpServlet {
@@ -32,14 +37,14 @@ public class ImagesFormServlet extends HttpServlet {
 		// action 속성의 값은 context/imageService, method="get"
 		
 		resp.setContentType("text/html;charset=UTF-8");
-		InputStream in = this.getClass().getResourceAsStream("imageform.html");
-		InputStreamReader isr = new InputStreamReader(in, "UTF-8");
-		BufferedReader br = new BufferedReader(isr);
-		StringBuffer html = new StringBuffer();
-		String temp = null;
-		while( (temp = br.readLine()) != null){
-			html.append(temp+"\n");
-		}
+//		InputStream in = this.getClass().getResourceAsStream("imageform.html");
+//		InputStreamReader isr = new InputStreamReader(in, "UTF-8");
+//		BufferedReader br = new BufferedReader(isr);
+//		StringBuffer html = new StringBuffer();
+//		String temp = null;
+//		while( (temp = br.readLine()) != null){
+//			html.append(temp+"\n");
+//		}
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("<option value=''>그림선택</option>");
@@ -54,13 +59,45 @@ public class ImagesFormServlet extends HttpServlet {
 //		}
 		
 		
-		int start = html.indexOf("@imageform");
-		int end = start + "@imageform".length();
-		String replacetext = sb.toString();
-		html.replace(start, end, replacetext);
-		PrintWriter out = resp.getWriter();
-		out.println(html.toString());
-//		out.close();
+//		int start = html.indexOf("@imageform");
+//		int end = start + "@imageform".length();
+		
+		
+		
+//		String replacetext = sb.toString();
+//		html.replace(start, end, replacetext);
+		
+		req.setAttribute("optionsAttr", sb.toString());
+		
+		//A,B
+		String imgCookieValue = new CookieUtil(req).getCookieValue("imageCookie");
+		StringBuffer imgTags = new StringBuffer();
+		if(imgCookieValue!=null) {
+			
+			ObjectMapper mapper = new ObjectMapper();
+			String[] imgNames = mapper.readValue(imgCookieValue, String[].class);
+			
+			String imgPattern = "<img src='imageService?image=%s'/>";
+			for(String imgName : imgNames) {
+				imgTags.append(
+							String.format(imgPattern, imgName)
+						);
+			}
+		}
+		req.setAttribute("imgTags", imgTags);
+//		start = html.indexOf("@images");
+//		end = start + "@images".length();
+//		html.replace(start, end, imgTags.toString());
+		String view = "/WEB-INF/views/imageform.jsp";
+		RequestDispatcher rd = req.getRequestDispatcher(view);
+		rd.include(req, resp);  //지우지 않고 쌓아두고 가야대기때문에... include사용
+//		PrintWriter out = resp.getWriter();
+//		out.println(html.toString());
+		
+
+		
+		
+
 		
 	}
 	

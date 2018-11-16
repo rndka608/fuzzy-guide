@@ -29,11 +29,14 @@
 
 </head>
 <body>
-<%-- <form action="<%=request.getContextPath()%>/login/loginCheck.jsp" method="post"> --%>
-<form action="./" method="get">
+<form action="<%=request.getContextPath()%>/login/loginCheck.jsp" method="post">
+<!-- <form action="./" method="get"> -->
 	<ul>
 		<li>
 			아이디 : <input type="text" name="mem_id" value="<%=Objects.toString(failedId,"")%>"/>
+			<label>
+			<input type="checkbox" name="idChecked" value="idSaved"/>아이디기억하기
+			</label>
 		</li>
 		<li>
 			비밀번호 : <input type="password" name="mem_pass" />
@@ -41,7 +44,7 @@
 		</li>
 		
 	</ul>
-	<input type="hidden" name="command" value="logincheck"/>
+<!-- 	<input type="hidden" name="command" value="logincheck"/> -->
 </form>
 </body>
 </html>

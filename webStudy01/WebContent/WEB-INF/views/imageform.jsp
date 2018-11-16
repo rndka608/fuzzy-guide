@@ -1,7 +1,4 @@
-<!-- <script -->
-<!--   src="https://code.jquery.com/jquery-3.3.1.min.js" -->
-<!--   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" -->
-<!--   crossorigin="anonymous"></script> -->
+ <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <script type="text/javascript">
 	$(function() {
 		var imgArea = $("#imgArea");
@@ -16,11 +13,11 @@
 </script>
 	<form name="imgForm" action="imageService" method="get">
 		<select name="image">
-			@imageform
+			<%= request.getAttribute("optionsAttr") %>
 		</select>
-		</form>
+	</form>
 <div id="imgArea">
-	@images
+	<%=request.getAttribute("imgTags") %>
 </div>
 
 <!-- <!-- <script type="text/javascript"> --> 
