@@ -1,59 +1,56 @@
-<%@page import="kr.or.ddit.web.model2.FileListGenerator"%>
 <%@page import="java.io.File"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<%
-	FileListGenerator fig = new FileListGenerator();
-	//서블릿에 있는 파일리스트를 가져온다.
-	File[] files = (File[])request.getAttribute("files");
-%>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-	
-	function moveFile(fileAddr){
-		var fform = document.fileForm;
-		fform.fileAddress.value = fileAddr;
-		fform.submit();
+	$(function() {
+	    var fileForm = document.fileForm;
+	    //ul안에 있는 li들을 더블클릭하면 경로와 이름을 가지고 form이 넘어간다.
+		$("#fileList>li").on("dblclick", function() {
+// 			alert($(this).text());
+			fileForm.path.value=$(this).attr('value');
+			fileForm.name.value=$(this).text();
+			fileForm.submit();
+
+		});
+	    
+	})
+	function name() {
+		
 	}
-	
 </script>
+<title>Insert title here</title>
 </head>
 <body>
-	<form name="fileForm" action="<%=request.getContextPath()%>/fileBrowser.do"> 
-	<ul>
-	<%
-		for(File tmp : files){
-			String url =tmp.getAbsolutePath();
-			url = url.replaceAll("\\\\", "/");
-			if(tmp.isDirectory()){
-		%>
-			<li><a href="javascript:moveFile('<%=url %>');"><%=tmp.getName() %></a></li>		
-		<% 	
-		} else {
-		%>
-			<li><a href="void(0)" onclick="alert('폴더없음');return false;"><%=tmp.getName() %></a></li>			
-		<% 
-		}
-		}
-	%>
-	</ul>
-	<%
-		String backurl = files[0].getParentFile().getAbsolutePath();
-		backurl = backurl.substring(0, backurl.lastIndexOf("\\"));
-		backurl = backurl.replaceAll("\\\\","/");
-		
-		if(backurl.contains("WebContent")){
-		%>
-			<a href="javascript:moveFile('<%=backurl%>');">뒤로가기</a>
+
+	<jsp:useBean id="file" class="java.util.ArrayList" scope="request" />
+	<ul id="fileList">
 		<%
-		}
+			//file만큼 for문을 돌려서 li를 만들어준다.
+			String pattern = "<li value=%s >%s</li>";
+			for (Object name : file) {
+				File ss = (File) name; //Object인 name을 File로 다운캐스팅 해준다.
+				out.println(String.format(pattern, ss.getAbsolutePath(), ss.getName()));
+				// li value값에 경로를 넣어주고, li사이에 이름을 넣어서 출력해준다.
+			}
 		%>
-	<input value="" name="fileAddress" type="hidden"/>		
+	</ul>
+	<form method="get" name="fileForm" >
+	<input name="path" value="" type="hidden" />
+	<input name="name" value="" type="hidden" />
+	<input type="radio" name="radio" value="delete"/>삭제
+	<input type="radio" name="radio" value="copy"/>복사
+	<input type="radio" name="radio" value="move"/>이동
+	
+	
 	</form>
 </body>
 </html>
