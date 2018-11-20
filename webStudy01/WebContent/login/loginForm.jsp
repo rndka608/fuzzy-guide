@@ -6,7 +6,6 @@
  <%
  	//requestA를 의미함.
 	String failedId = request.getParameter("mem_id");
-//  	String error = request.getParameter("error");
  	String message = (String)session.getAttribute("message");//object이기 떄문에 다운캐스팅이 필요하다
  	String ids = new CookieUtil(request).getCookieValue("IDCookie");
  	
